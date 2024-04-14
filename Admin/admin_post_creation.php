@@ -68,7 +68,7 @@ body{
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: background-color:#780d9b ;
+  background-color:#780d9b ;
   background-image: linear-gradient(316deg, #780d9b 0%, #a594f9 74%);
 }
 ::selection{

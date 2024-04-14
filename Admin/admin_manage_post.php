@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display Posts</title>
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
         }
@@ -83,17 +83,9 @@
         // Check if form is submitted for update or delete
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             if ($_POST['action'] == 'update' && isset($_POST['post_id'])) {
-                $postId = $_POST['post_id'];
-                $username = $_POST['username'];
-                $content = $_POST['content'];
-
-                // Update post in the database
-                $sql = "UPDATE admin_posts SET username='$username', content='$content' WHERE id=$postId";
-                if ($conn->query($sql) === TRUE) {
-                    echo "Post updated successfully";
-                } else {
-                    echo "Error updating post: " . $conn->error;
-                }
+                // Redirect to admin_post_update.php for updating
+                header("Location: admin_post_update.php?post_id=" . $_POST['post_id']);
+                exit();
             } elseif ($_POST['action'] == 'delete' && isset($_POST['post_id'])) {
                 $postId = $_POST['post_id'];
 
