@@ -18,21 +18,27 @@ $serialNumber = 1;
 // Check if the "delete" parameter is present in the URL
 if (isset($_GET['delete'])) {
     $deleteID = $_GET['delete'];
-    $deleteResult = deleteUser($deleteID);
+    $deleteResult = deleteNgo($deleteID);
     if ($deleteResult) {
         // Refresh the page to update the user list after deletion
-        echo "<script>window.location.href = 'admin_user_management.php';</script>";
+        echo "<script>window.location.href = 'admin_manage_ngo.php';</script>";
     }
 }
 
-// Function to delete a user based on their ID
-function deleteUser($userID)
+// Function to delete an NGO based on their ID
+function deleteNgo($ngoID)
 {
     global $conn;
 
-    $query = "DELETE FROM donor_details WHERE donor_user_id = '$userID'";
+    $query = "DELETE FROM ngo_details WHERE ngo_id = '$ngoID'";
     $result = $conn->query($query);
-    return $result;
+    
+    if ($result === TRUE) {
+        return true; // Deletion successful
+    } else {
+        echo "Error deleting record: " . $conn->error;
+        return false; // Deletion failed
+    }
 }
 
 ?>
@@ -42,7 +48,7 @@ function deleteUser($userID)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account Management</title>
+    <title>NGO Account Management</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
          body {
@@ -122,18 +128,6 @@ function deleteUser($userID)
 
         tr:hover {
             background-color: #d5cece;
-        }
-
-        .status-select {
-            padding: 8px 12px;
-            border: 2px solid #007bff;
-            border-radius: 5px;
-            background-color: white;
-            font-size: 14px;
-            font-weight: 600;
-            color: #007bff;
-            margin: 5px;
-            cursor: pointer;
         }
 
         .button {
@@ -315,102 +309,16 @@ function deleteUser($userID)
     </style>
 </head>
 <body>
-    <h1>User Account details</h1>
+    <h1>NGO Account Details</h1>
     <div class="search-container">
         <input type="text" id="searchInput" class="searchInput" placeholder="Search for names..">
         <button onclick="searchTable()" class="search-button">Search</button>
         <button onclick="clearSearch()" class="clear-button">Clear</button>
     </div>
-    <div class="dropdown">
-        <label for="account-details">Select Account Details:</label>
-        <select id="account-details" onchange="showTable(this.value)">
-            <option value="donor" selected>Donor Account Details</option>
-            <option value="ngo">NGO Account Details</option>
-            <option value="logistics">Logistics Account Details</option>
-        </select>
-    </div>
-
-    <!-- Donor Table -->
-    <div class="user-table-container" id="donorTable">
-        <h2>Donors</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>S.NO</th>
-                    <th>ID</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Street</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip</th>
-                    <th>Country</th>
-                    <th>Password</th>
-                    <th>Gender</th>
-                    <th>Funding Type</th>
-                    <th>Donation Amount</th>
-                    <th>Payment Type</th>
-                    <th>UPI ID</th>
-                    <th>Card Number</th>
-                    <th>Expiry</th>
-                    <th>CVV</th>
-                    <th>Childhood Pet</th>
-                    <th>Vacation Spot</th>
-                    <th>Hobby</th>
-                    <th>Account Creation</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                     $result = $conn->query("SELECT * FROM donor_details");
-
-                     if ($result->num_rows > 0) {
-                         while ($row = $result->fetch_assoc()) {
-                             echo "<tr>";
-                             echo '<td>' . $serialNumber . '</td>';
-                             $serialNumber++;
-                             echo "<td>{$row['donor_user_id']}</td>";
-                             echo "<td>{$row['donor_user_name']}</td>";
-                             echo "<td>{$row['donor_user_email']}</td>";
-                             echo "<td>{$row['donor_user_phone']}</td>";
-                             echo "<td>{$row['donor_user_street']}</td>";
-                             echo "<td>{$row['donor_user_city']}</td>";
-                             echo "<td>{$row['donor_user_state']}</td>";
-                             echo "<td>{$row['donor_user_zip']}</td>";
-                             echo "<td>{$row['donor_user_country']}</td>";
-                             echo "<td>{$row['donor_user_pwd']}</td>";
-                             echo "<td>{$row['donor_user_gender']}</td>";
-                             echo "<td>{$row['fundingType']}</td>";
-                             echo "<td>{$row['donationAmount']}</td>";
-                             echo "<td>{$row['paymentType']}</td>";
-                             echo "<td>{$row['upiId']}</td>";
-                             echo "<td>{$row['cardNumber']}</td>";
-                             echo "<td>{$row['expiry']}</td>";
-                             echo "<td>{$row['cvCode']}</td>";
-                             echo "<td>{$row['childhood_pet']}</td>";
-                             echo "<td>{$row['vacation_destination']}</td>";
-                             echo "<td>{$row['favourite_hobby']}</td>";
-                             echo "<td>{$row['submission_date']}</td>";
-     
-                             echo '<td class="two-btn">';
-                             echo '<div><a href="admin_userprof_update_sep.php?id=' . $row['donor_user_id'] . '&table=donor_details" class="btn">Update</a> </div> ---';
-                             echo '<div><a href="?delete=' . $row['donor_user_id'] . '" onclick="return confirmDelete();" class="btn-2">Delete</a></div>';
-                             echo '</td>';
-                             echo "</tr>";
-                         }
-                     } else {
-                         echo "<tr><td colspan='13'>No records found</td></tr>";
-                     }
-                     ?>
-            </tbody>
-        </table>
-    </div>
 
     <!-- NGO Table -->
-    <div class="user-table-container" id="ngoTable" style="display: none;">
-        <h2>NGO Account Details</h2>
+    <div class="user-table-container">
+        <h2>NGOs</h2>
         <table>
             <thead>
                 <tr>
@@ -467,128 +375,50 @@ function deleteUser($userID)
         </table>
     </div>
 
-    <!-- Logistics Table -->
-    <div class="user-table-container" id="logisticsTable" style="display: none;">
-        <h2>Logistics Account Details</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>S.NO</th>
-                    <th>Logistics ID</th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>User Password</th>
-                    <th>Organization Name</th>
-                    <th>Organization Place</th>
-                    <th>Organization Phone</th>
-                    <th>Organization Email</th>
-                    <th>Childhood Pet</th>
-                    <th>Vacation Spot</th>
-                    <th>Hobby</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-                $result = $conn->query("SELECT * FROM logistics_details");
-                $serialNumber=1;
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                      echo '<tr>';
-                      echo '<td>' . $serialNumber . '</td>';
-                      $serialNumber++;
-                      echo "<td>{$row['logistics_id']}</td>";
-                      echo "<td>{$row['logistics_user_name']}</td>";
-                      echo "<td>{$row['logistics_user_position']}</td>";
-                      echo "<td>{$row['logistics_user_phone']}</td>";
-                      echo "<td>{$row['logistics_user_email']}</td>";
-                      echo "<td>{$row['logistics_user_pwd']}</td>";
-                      echo "<td>{$row['logistics_org_name']}</td>";
-                      echo "<td>{$row['logistics_org_place']}</td>";
-                      echo "<td>{$row['logistics_org_phone']}</td>";
-                      echo "<td>{$row['logistics_org_mail']}</td>";
-                      echo "<td>{$row['childhood_pet']}</td>";
-                      echo "<td>{$row['vacation_destination']}</td>";
-                      echo "<td>{$row['favourite_hobby']}</td>";
-                      echo '<td class="two-btn">';
-                      echo '<div><a href="admin_ngo_update_sep.php?id=' . $row['logistics_id'] . '" class="btn">Update</a> </div> --- ';
-                      echo '<div><a href="?delete=' . $row['logistics_id'] . '" onclick="return confirmDelete();" class="btn-2">Delete</a></div>';
-                      echo '</td>';
-                      echo '</tr>';
-                    }
-                } else {
-                    echo "<tr><td colspan='13'>No records found</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-
     <script>
-        function showTable(selectedValue) {
-            document.querySelectorAll('.user-table-container').forEach(function(table) {
-                table.style.display = 'none';
-            });
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this NGO?");
+    }
 
-            document.getElementById(selectedValue + 'Table').style.display = 'block';
-        }
+    function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
 
-        function confirmDelete() {
-            return confirm("Are you sure you want to delete this user?");
-        }
-
-    <!-- Add this code after the search input field -->
-        function searchTable() {
-            var input, filter, table, tr, td, i, j, txtValue;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-
-            // Search in both tables
-            var tables = document.getElementsByClassName('user-table-container');
-            for (j = 0; j < tables.length; j++) {
-                table = tables[j].getElementsByTagName('table')[0];
-                tr = table.getElementsByTagName('tr');
-                for (i = 1; i < tr.length; i++) {
-                    var found = false; // Flag to check if any column contains the search term
-                    for (var col = 1; col < tr[i].cells.length; col++) { // Start from 1 to skip User ID
-                        td = tr[i].getElementsByTagName('td')[col];
-                        if (td) {
-                            txtValue = td.textContent || td.innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                found = true;
-                                break; // Exit inner loop if found in this row
-                            }
-                        }
-                    }
-                    if (found) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
+        // Search in the table
+        table = document.querySelector('.user-table-container table');
+        tr = table.getElementsByTagName('tr');
+        for (i = 1; i < tr.length; i++) {
+            var found = false; // Flag to check if any column contains the search term
+            for (var col = 1; col < tr[i].cells.length; col++) { // Start from 1 to skip User ID
+                td = tr[i].getElementsByTagName('td')[col];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break; // Exit inner loop if found in this row
                     }
                 }
             }
+            if (found) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
         }
+    }
 
-        function clearSearch() {
+    function clearSearch() {
         // Clear the search input field
         document.getElementById('searchInput').value = '';
 
         // Show all rows in the table
-        var tables = document.getElementsByClassName('user-table-container');
-        for (var j = 0; j < tables.length; j++) {
-            var tableRows = tables[j].getElementsByTagName('tr');
-            for (var i = 1; i < tableRows.length; i++) {
-                tableRows[i].style.display = '';
-            }
+        var tableRows = document.querySelectorAll('.user-table-container table tbody tr');
+        for (var i = 0; i < tableRows.length; i++) {
+            tableRows[i].style.display = '';
         }
     }
 </script>
-      
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

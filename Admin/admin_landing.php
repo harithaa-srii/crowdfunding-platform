@@ -21,7 +21,9 @@ if(isset($_SESSION['username'])) {
   <link rel='stylesheet' href="admin_landing_style.css">
   <style>
     .main-header {
-    margin-right: 20px; /* Adjust the margin as needed */
+    margin-right: 20px;
+    position: relative;
+    z-index: 0; /* Adjust the margin as needed */
   }
 
   .common-post {
@@ -132,10 +134,14 @@ function selectNavItem(element, event) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="admin_user_management.php" class="common-list-button">
-
-            <div class="nav-button"><i class="fas fa-users-gear fa-xl"></i><span>Manage all users</span></div>
-          </a>
+          <div class="common-list-button" onclick="toggleDropdown('manageDropdown')">
+            <div class="nav-button"><i class="fas fa-users-gear fa-xl"></i><span>Manage users</span></div>
+          </div>
+          <ul id="manageDropdown" class="dropdown-content">
+            <li><a href="admin_manage_donors.php">Manage donors</a></li>
+            <li><a href="admin_manage_ngo.php">Manage NGOs</a></li>
+            <li><a href="admin_manage_logistics.php">Manage Logistics</a></li>
+          </ul>
         </li>
         <li class="common-list-item">
           <a href="logistics_acc_req.php" class="common-list-button">
@@ -258,6 +264,40 @@ function clickCounter() {
     document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
   }
 }
+
+function toggleDropdown(id) {
+    var dropdown = document.getElementById(id);
+    if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+    } else {
+      // Hide other dropdowns
+      var allDropdowns = document.querySelectorAll(".dropdown-content");
+      allDropdowns.forEach(function(item) {
+        if (item.id !== id) {
+          item.style.display = "none";
+        }
+      });
+
+      // Show the clicked dropdown
+      dropdown.style.display = "block";
+      var manageUsersButton = document.querySelector(".common-list-item:nth-child(5) .common-list-button");
+      var rect = manageUsersButton.getBoundingClientRect();
+      dropdown.style.top = rect.bottom + "px";
+      dropdown.style.left = rect.left + "px";
+    }
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", function(event) {
+    var dropdown = document.getElementById("manageDropdown");
+    var manageUsersButton = document.querySelector(".common-list-item:nth-child(5) .common-list-button");
+    // Check if the clicked element is outside of the dropdown and manage users button
+    if (!dropdown.contains(event.target) && !manageUsersButton.contains(event.target)) {
+      dropdown.style.display = "none"; // Hide the dropdown menu
+    }
+  });
+
+
 </script>
 </body>
 </html>
