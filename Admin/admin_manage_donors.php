@@ -380,7 +380,7 @@ function deleteUser($userID)
                              echo "<td>{$row['favourite_hobby']}</td>";
                              echo "<td>{$row['submission_date']}</td>";
                              echo '<td class="two-btn">';
-                             echo '<div><a href="admin_userprof_update_sep.php?id=' . $row['donor_user_id'] . '&table=donor_details" class="btn">Update</a> </div> ---';
+                             echo '<div><a href="update_donors.php?id=' . $row['donor_user_id'] . '&table=donor_details" class="btn">Update</a> </div> ---';
                              echo '<div><a href="?delete=' . $row['donor_user_id'] . '" onclick="return confirmDelete();" class="btn-2">Delete</a></div>';;
                              echo '</td>';
                              echo "</tr>";

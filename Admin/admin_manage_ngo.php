@@ -362,7 +362,7 @@ function deleteNgo($ngoID)
                       echo "<td>{$row['vacation_destination']}</td>";
                       echo "<td>{$row['favourite_hobby']}</td>";
                       echo '<td class="two-btn">';
-                      echo '<div><a href="admin_ngo_update_sep.php?id=' . $row['ngo_id'] . '" class="btn">Update</a> </div> --- ';
+                      echo '<div><a href="update_ngo.php?id=' . $row['ngo_id'] . '" class="btn">Update</a> </div> --- ';
                       echo '<div><a href="?delete=' . $row['ngo_id'] . '" onclick="return confirmDelete();" class="btn-2">Delete</a></div>';
                       echo '</td>';
                       echo '</tr>';
