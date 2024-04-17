@@ -2,19 +2,24 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['logistics_username']) || !isset($_SESSION['logistics_useremail'])) {
+if (!isset($_SESSION['logistics_username']) || !isset($_SESSION['logistics_useremail']) || !isset($_SESSION['logistics_userphone'])) {
     // Redirect to the login page
     header("Location: logistics_login.php");
     exit();
 }
 
+// Set default values for form fields
+$username = $_SESSION['logistics_username'];
+$email = $_SESSION['logistics_useremail'];
+$phone = $_SESSION['logistics_userphone'];
+
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form values
-    $user_id = $_SESSION['logistics_id']; // Assuming this is the correct session variable
-    $username = $_SESSION['logistics_username'];
-    $phoneNumber = $_POST['phoneNumber'];
-    $email = $_POST['email'];
+    $logistics_id = $_SESSION['logistics_id'];
+    $logistics_username = $_SESSION['logistics_username'];
+    $logistics_userphone = $_SESSION['logistics_userphone'];
+    $logistics_useremail = $_SESSION['logistics_useremail'];
     $description = $_POST['description'];
     $date = $_POST['date'];
 
@@ -22,29 +27,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $servername = "localhost";
     $dbUsername = "root";
     $dbPassword = "";
-    $dbname = "crowdfund";
+    $dbname = "crowdfund"; // Update this to your database name
 
     try {
         // Create a PDO instance
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbUsername, $dbPassword);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Generate a unique post ID
-        $postID = uniqid();
-
+    
+        // Generate a unique query ID
+        $queryID = uniqid();
+    
         // Prepare and execute the query
-        $stmt = $conn->prepare("INSERT INTO logistics_queries (lch_id, lch_user_id, lch_user_name, lch_user_phone, lch_user_email, lch_desc, lch_date) VALUES (:postID, :user_id, :username, :phoneNumber,:email, :description, :date)");
-        $stmt->bindParam(':postID', $postID);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':phoneNumber', $phoneNumber);
-        $stmt->bindParam(':email', $email);
+        $stmt = $conn->prepare("INSERT INTO queries (query_id, user_id, user_name, user_phone, user_email, description, date_questioned) VALUES (:queryID, :user_id, :logistics_username, :logistics_userphone, :logistics_useremail, :description, :date)");
+        $stmt->bindParam(':queryID', $queryID);
+        $stmt->bindParam(':user_id', $logistics_id); // Assuming $logistics_id contains the user ID
+        $stmt->bindParam(':logistics_username', $logistics_username);
+        $stmt->bindParam(':logistics_userphone', $logistics_userphone);
+        $stmt->bindParam(':logistics_useremail', $logistics_useremail);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':date', $date);
         $stmt->execute();
-
+        
         // Display the success message and redirect after 3 seconds
-        $successMessage = "QUESTION SUBMITTED SUCCESSFULLY. QUESTION ID: $postID";
+        $successMessage = "QUESTION SUBMITTED SUCCESSFULLY.";
         echo '<div id="popup" class="popup">
                 <h3>Success!</h3>
                 <p>' . $successMessage . '</p>
@@ -57,9 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (PDOException $e) {
         // Handle database connection or query errors
         $errorMessage = "Database error: " . $e->getMessage();
+        echo "Error: " . $errorMessage; // Display the error message
     }
+    
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-            .go-back {
+        
+        .go-back {
                 padding: 10px;
                 text-align: center;
                 background-color: orange;
@@ -325,62 +334,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
             }
-        </style>
+    </style>
 </head>
 <body>
 <div class="back-button">
-            <a href="donor_faq.php" class="go-back">⬅️ GO BACK</a>
-        </div>
-        <div class="container">
-            <div class="column">
-                <h2>Question Request</h2>
-                <form method="POST" action="logistics_question_form.php" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="user_id">User ID</label>
-                        <input type="text" id="user_id" name="user_id" value="<?php echo isset($_SESSION['logistics_id']) ? $_SESSION['logistics_id'] : ''; ?>" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" value="<?php echo isset($_SESSION['logistics_username']) ? $_SESSION['logistics_username'] : ''; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumber">Phone Number</label>
-                        <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}" oninput="validatePhoneNumber(this)" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Your Doubt 🤔:</label>
-                        <textarea id="description" name="description" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your E-mail" required>
-                    </div>
-                    <div class=" form-group">
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required>
-                    </div>
-                    <div class="form-group" style="text-align: center; width: 100%;">
-                        <input type="submit" value="Submit Question">
-                    </div>
-                </form>
+    <a href="logistics_faq.php" class="go-back">⬅️ GO BACK</a>
+</div>
+<div class="container">
+    <div class="column">
+        <h2>Question Request</h2>
+        <form method="POST" action="logistics_question_form.php" enctype="multipart/form-data">
+           <div class="form-group">
+                <label for="user_id">User ID</label>
+                <input type="text" id="user_id" name="user_id" value="<?php echo isset($_SESSION['logistics_id']) ? $_SESSION['logistics_id'] : ''; ?>" disabled>
             </div>
-            <script>
-                // Display the popup
-                document.addEventListener("DOMContentLoaded", function() {
-                    var popup = document.getElementById("popup");
-                    popup.style.display = "block";
-                });
-            </script>
-            <script>
-                function validatePhoneNumber(input) {
-                    // Remove non-numeric characters
-                    input.value = input.value.replace(/\D/g, '');
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="<?php echo $username; ?>" disabled>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" value="<?php echo $phone; ?>" disabled>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo $email; ?>" disabled>
+            </div>
+            <div class="form-group">
+                <label for="description">Your Doubt 🤔:</label>
+                <textarea id="description" name="description" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group" style="text-align: center; width: 100%;">
+                <input type="submit" value="Submit Question">
+            </div>
+        </form>
+    </div>
+    <script>
+        // Display the popup
+        document.addEventListener("DOMContentLoaded", function() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+        });
+    </script>
+<script>
+        function validatePhoneNumber(input) {
+            // Remove non-numeric characters
+            input.value = input.value.replace(/\D/g, '');
 
-                    // Limit the length to 10 characters
-                    if (input.value.length > 10) {
-                        input.value = input.value.slice(0, 10);
-                    }
-                }
-            </script>
+            // Limit the length to 10 characters
+            if (input.value.length > 10) {
+                input.value = input.value.slice(0, 10);
+            }
+        }
+</script>
 </body>
 </html>

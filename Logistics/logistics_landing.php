@@ -96,7 +96,7 @@ function getIconForCategory($category) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="logistics_acc_req.php" class="common-list-button">
+          <a href="logistics_faq.php" class="common-list-button">
 
           <div class="nav-button"><i class="fa-solid fa-question fa-xl"></i><span>FAQ - HELP</span></div>
           </a>

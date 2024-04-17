@@ -6,12 +6,12 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $username = $_POST['username'];
-    $userphone = $_POST['userphone'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $location = $_POST['location'];
     $organization = $_POST['organization'];
     $organizationemail = $_POST['organizationemail'];
+    $userphone = $_POST['userphone'];
 
     // Database connection
     $servername = "localhost";
@@ -47,15 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'setTimeout(function() { window.location.href = "../index.php"; }, 5000);'; // Redirect after 5 seconds
             echo '</script>';
         } elseif ($accReqStatus == 'Approve') {
-            // Additional validation and session setup here
             // Save values in session variables
-            $_SESSION['logistics_username'] = $username; // Change to logistics_user_name
-            $_SESSION['logistics_useremail'] = $email; // Change to logistics_user_email
-            $_SESSION['logistics_userphone'] = $userphone; // No change needed
-            $_SESSION['logistics_organization'] = $organization; // No change needed
-            $_SESSION['logistics_organizationemail'] = $organizationemail; // No change needed
-            $_SESSION['logistics_location'] = $location; // No change needed
-            $_SESSION['logistics_id'] = $logisticsId; // No change needed
+            $_SESSION['logistics_id'] = $logisticsId;
+            $_SESSION['logistics_username'] = $username;
+            $_SESSION['logistics_useremail'] = $email;
+            $_SESSION['logistics_userphone'] = $userphone;
+            $_SESSION['logistics_organization'] = $organization;
+            $_SESSION['logistics_organizationemail'] = $organizationemail;
+            $_SESSION['logistics_location'] = $location;
 
             // Redirect to logistics_landing.php
             header("Location: logistics_landing.php");
@@ -71,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 
