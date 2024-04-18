@@ -2,8 +2,8 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['ngo_user_name']) || !isset($_SESSION['ngo_id'])) {
-    header('Location: ngo_login.php');
+if (!isset($_SESSION['donor_user_name']) || !isset($_SESSION['donor_user_id'])) {
+    header('Location: donor_login.php');
     exit();
 }
 
@@ -26,10 +26,10 @@ try {
     exit();
 }
 
-// Get the user ID from the session
-$user_id = $_SESSION['ngo_id'];
+// Get the donor ID from the session
+$user_id = $_SESSION['donor_user_id'];
 
-// Get posts for the logged-in user
+// Get posts for the logged-in donor
 $query = "SELECT * FROM queries WHERE user_id = :user_id ORDER BY date_questioned DESC";
 $stmt = $conn->prepare($query);
 $stmt->bindParam(':user_id', $user_id);
@@ -41,7 +41,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html>
 
 <head>
-    <title>NGO Questions Management</title>
+    <title>Donor Questions Management</title>
     <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -65,7 +65,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         .container {
             width: 80%;
-            margin:80px auto;
+            margin: 80px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
@@ -137,7 +137,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     
     <div class="container">
-        <h2>NGO Questions Management</h2>
+        <h2>Donor Questions Management</h2>
 
         <?php if (isset($_SESSION['success_message'])) : ?>
             <div class="success-message"><?php echo $_SESSION['success_message']; ?></div>
@@ -165,7 +165,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </li>
                 <?php endforeach; ?>
             <?php else : ?>
-                <li class="post-item">No Questions Asked👍. <a href="ngo_question_form.php" class="ask-q">Feel Free to Clear Your Doubts by clicking here!!!</a> </li>
+                <li class="post-item">No Questions Asked👍. <a href="donor_question_form.php" class="ask-q">Feel Free to Clear Your Doubts by clicking here!!!</a> </li>
             <?php endif; ?>
         </ul>
     </div>

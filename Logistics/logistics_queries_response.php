@@ -1,9 +1,10 @@
+
 <?php
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['ngo_user_name']) || !isset($_SESSION['ngo_id'])) {
-    header('Location: ngo_login.php');
+if ( !isset($_SESSION['logistics_id'])) {
+    header('Location: logistics_login.php');
     exit();
 }
 
@@ -26,22 +27,22 @@ try {
     exit();
 }
 
-// Get the user ID from the session
-$user_id = $_SESSION['ngo_id'];
+// Get the logistics user ID from the session
+$logistics_id = $_SESSION['logistics_id'];
 
-// Get posts for the logged-in user
-$query = "SELECT * FROM queries WHERE user_id = :user_id ORDER BY date_questioned DESC";
+// Get queries for the logged-in logistics user
+$query = "SELECT * FROM queries WHERE user_id = :logistics_id ORDER BY date_questioned DESC";
 $stmt = $conn->prepare($query);
-$stmt->bindParam(':user_id', $user_id);
+$stmt->bindParam(':logistics_id', $logistics_id);
 $stmt->execute();
-$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$queries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>NGO Questions Management</title>
+    <title>Logistics Questions Management</title>
     <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -65,7 +66,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         .container {
             width: 80%;
-            margin:80px auto;
+            margin: 80px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
@@ -137,7 +138,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     
     <div class="container">
-        <h2>NGO Questions Management</h2>
+        <h2>Logistics Questions Management</h2>
 
         <?php if (isset($_SESSION['success_message'])) : ?>
             <div class="success-message"><?php echo $_SESSION['success_message']; ?></div>
@@ -149,23 +150,23 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php unset($_SESSION['error_message']); ?>
         <?php endif; ?>
         <ul class="post-list">
-            <?php if (!empty($posts)) : ?>
-                <?php foreach ($posts as $post) : ?>
+            <?php if (!empty($queries)) : ?>
+                <?php foreach ($queries as $query) : ?>
                     <li class="post-item">
                         <div class="post-info">
                             <div class="public-q-description">
                                 <p class="ur-q">Your Question:</p>
-                                <p class="pch-desc"> <?php echo $post['description']; ?></p>
+                                <p class="pch-desc"><?php echo $query['description']; ?></p>
                             </div>
                             <div class="admin-ans-description">
                                 <p class="ur-ans">Admin Answer:</p>
-                                <p class="pch-admin-reply"><?php echo $post['admin_reply']; ?></p>
+                                <p class="pch-admin-reply"><?php echo $query['admin_reply']; ?></p>
                             </div>
                         </div>
                     </li>
                 <?php endforeach; ?>
             <?php else : ?>
-                <li class="post-item">No Questions Asked👍. <a href="ngo_question_form.php" class="ask-q">Feel Free to Clear Your Doubts by clicking here!!!</a> </li>
+                <li class="post-item">No Queries Asked👍. <a href="logistics_question_form.php" class="ask-q">Feel Free to Ask Questions Here!</a></li>
             <?php endif; ?>
         </ul>
     </div>

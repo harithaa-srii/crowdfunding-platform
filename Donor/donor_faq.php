@@ -166,7 +166,7 @@
                         <p class="lead">"UnityFunds FAQ: Answers to Your Questions about Connecting Communities"</p>
                         </div>
                         <div class="back-button">
-                            <a href="public_manage_pch.php" class="go-back-2">Your Curiosities Answered</a>
+                            <a href="donor_queries_response.php" class="go-back-2">Your Curiosities Answered</a>
                         </div>
 
                     </div>
