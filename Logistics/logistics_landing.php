@@ -1,5 +1,6 @@
 <?php
 // Start the session
+session_name("logistics_session");
 session_start();
 
 // Check if the user is logged in
@@ -9,12 +10,21 @@ if(isset($_SESSION['username'])) {
     header("Location: logistics_login.php");
     exit;
 }
+
+if (isset($_POST['logout'])) {
+  // Destroy session
+  session_destroy();
+  // Redirect to index.php
+  header("Location:logistics_login.php");
+  exit();
+}
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
   <title>Logistics- HOME</title>
+  <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,7 +33,6 @@ if(isset($_SESSION['username'])) {
 
 <body>
 <!-- partial:index.partial.html -->
-<button class="icon-button e-dark-mode-button u-animation-click" id="darkMode" aria-label="Dark Mode"><span class="icon" aria-hidden="true">🌜</span></button>
 <div class="common-structure">
   <header class="main-header u-flex">
     <div class="start u-flex">
@@ -90,9 +99,9 @@ function getIconForCategory($category) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="#" class="common-list-button">
+          <a href="logistics_manage_post.php" class="common-list-button">
 
-            <div class="nav-button"><i class="fa-solid fa-gauge fa-xl"></i><span>Your activity</span></div>
+            <div class="nav-button"><i class="fas fa-bars-progress fa-xl"></i><span>Manage Posts</span></div>
           </a>
         </li>
         <li class="common-list-item">
@@ -102,9 +111,11 @@ function getIconForCategory($category) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="logistics_login.php" class="common-list-button">
-            <div class="nav-button"><i class="fas fa-sign-out-alt fa-xl"></i><span>Logout</span></div>
-          </a>
+        <div class="logout-button logout-button-right">
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+          <button type="submit" class="log" name="logout"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></button>
+        </form>
+        </div>
         </li>
       </ul>  
   </aside>

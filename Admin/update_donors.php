@@ -89,6 +89,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Donor Account</title>
+    <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -167,9 +168,81 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         .show-password input[type="checkbox"]:checked + label::before {
             content: '\25B4';
         }
+
+        .back-button {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  left: 20px; /* Adjust the left position as needed */
+  border-radius: 50%;
+  border: #000 1px solid;
+  overflow: hidden;
+  transition: background 0.3s ease;
+  z-index: 1000; /* Ensure the back button stays above other elements */
+}
+
+
+.back-button.back .arrow-wrap {
+  left: -50%;
+}
+
+.back-button:hover {
+  background: #fff;
+  color:#000;
+}
+
+.back-button:hover .arrow-wrap span {
+  background: #000;
+}
+
+.back-button .arrow-wrap {
+  display: block;
+  position: absolute;
+  height: 70%;
+  width: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: left 0.3s ease;
+}
+
+.back-button .arrow-wrap span {
+  height: 1px;
+  left: 0;
+  top: 50%;
+  background: #000;
+  position: absolute;
+  display: block;
+  transition: background 0.3s ease;
+}
+
+.back-button .arrow-wrap .arrow-part-1 {
+  width: 100%;
+  transform: translate(0, -50%);
+}
+
+.back-button .arrow-wrap .arrow-part-2 {
+  width: 60%;
+  transform: rotate(-45deg);
+  transform-origin: 0 0;
+}
+
+.back-button .arrow-wrap .arrow-part-3 {
+  width: 60%;
+  transform: rotate(45deg);
+  transform-origin: 0 0;
+}
     </style>
 </head>
 <body>
+<div class="back-button">
+          <div class="arrow-wrap">
+            <span class="arrow-part-1"></span>
+            <span class="arrow-part-2"></span>
+            <span class="arrow-part-3"></span>
+          </div>
+</div>
     <div class="container">
         <h2>Update Donor Account</h2>
         <form method="post" action="update_donors.php">
@@ -279,5 +352,20 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             }
         });
     </script>
+    <script>
+    var backButton = document.querySelector('.back-button')
+    function backAnim() {
+    if (backButton.classList.contains('back')) {
+        backButton.classList.remove('back');
+    } else {
+        backButton.classList.add('back');
+        setTimeout(backAnim, 1000);
+    }
+    }
+
+    backButton.addEventListener('click', function() {
+    window.location.href = 'admin_manage_donors.php'; // Adjust the path as needed
+    });
+</script>
 </body>
 </html>

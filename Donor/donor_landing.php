@@ -1,10 +1,19 @@
 <?php
-session_start(); // Start the session
+
+if (isset($_POST['logout'])) {
+  // Destroy session
+  session_name("donor_session");
+  session_start();
+  session_unset();
+  session_destroy();
+  // Redirect to index.php
+  header("Location:donor-login.php");
+  exit();
+}
 
 // Check if the user is logged in
 if(isset($_SESSION['username'])) {
     // If logged in, destroy the session and redirect to login page
-    session_destroy();
     header("Location: donor-login.php");
     exit;
 }
@@ -15,6 +24,7 @@ if(isset($_SESSION['username'])) {
 <head>
   <meta charset="UTF-8">
   <title>Donor- HOME</title>
+  <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -32,7 +42,6 @@ if(isset($_SESSION['username'])) {
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<button class="icon-button e-dark-mode-button u-animation-click" id="darkMode" aria-label="Dark Mode"><span class="icon" aria-hidden="true">🌜</span></button>
 <div class="common-structure">
   <header class="main-header u-flex">
     <div class="start u-flex">
@@ -118,27 +127,23 @@ function selectNavItem(element, event) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="#" class="common-list-button">
+          <a href="donor_manage_post.php" class="common-list-button">
 
-            <div class="nav-button"><i class="fa-solid fa-hand-holding-heart fa-xl"></i><span>Request Funds</span></div>
-          </a>
-        </li>
-        <li class="common-list-item">
-          <a href="#" class="common-list-button">
-
-            <div class="nav-button"><i class="fa-solid fa-gauge fa-xl"></i><span>Your activity</span></div>
+            <div class="nav-button"><i class="fas fa-bars-progress fa-xl"></i><span>Manage Posts</span></div>
           </a>
         </li>
         <li class="common-list-item">
           <a href="donor_faq.php" class="common-list-button">
 
-          <div class="nav-button"><i class="fa-solid fa-question fa-xl"></i><span> FAQ - HELP</span></div>
+            <div class="nav-button"><i class="fa-solid fa-question fa-xl"></i><span>FAQ - HELP</span></div>
           </a>
         </li>
         <li class="common-list-item">
-          <a href="donor-login.php" class="common-list-button">
-            <div class="nav-button"><i class="fas fa-sign-out-alt fa-xl"></i><span>Logout</span></div>
-          </a>
+        <div class="logout-button logout-button-right">
+        <form method="POST" action="">
+          <button type="submit" class="log" name="logout"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></button>
+        </form>
+        </div>
         </li>
       </ul> 
     </section>
@@ -212,9 +217,7 @@ if ($result->num_rows > 0) {
         $(".side-a").toggleClass("is-open");
         $("html").toggleClass("is-nav-open");
     });
-      $("#darkMode").on("click", function(){
-        $("html").toggleClass("is-dark");
-    });
+      
 });
   </script>
 

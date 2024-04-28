@@ -11,8 +11,27 @@
   object-fit: cover;
 }
 
-/* START OF BUTTONS */
-/* Define your root variables */
+.logout-button{
+
+  top:20px;
+  padding: 12px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: rgb(231, 227, 227);
+  cursor: pointer;
+  color: #000;
+  position: relative;
+  text-align: center;
+  /* top: 50px; */
+  width: 70%;
+}
+
+.logout-button:hover{
+  font-weight: bolder;
+  color: #fff;
+  background-color: #780d9b;
+}
+
 
 /* Styles for the navigation buttons */
 .nav-button {
@@ -35,6 +54,7 @@
 .nav-button span {
   transition: opacity 1s;
   margin-left:10px;
+  font-size: 17px;
 }
 
 .nav-button .fas {
@@ -97,7 +117,7 @@ max-width: 100%;
 /* Native CSS variables */
 :root {
 /* colors */
---main-color:#1877f2;
+--main-color:#780d9b;
 --text-color:#050505;
 --full-color:255 255 255;
 --empty-color:0 0 0;
@@ -228,6 +248,36 @@ line-height: 1.3;
 color: var(--text-color);
 background-color: var(--balance-full);
 overflow-x: hidden;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  padding: 5px 0;
+  display: none;
+  z-index: 100;
+  width: 270px; /* Adjust the width as needed */
+  border-radius: 5px; 
+  margin-top:-50px;/* Rounded corners */
+}
+
+.dropdown-content li {
+  list-style-type: none;
+  padding: 10px 10px;
+}
+
+.dropdown-content li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.dropdown-content li a:hover {
+  background-color: var(--background);
+  color: #780d9b; /* Text color */
+  font-weight: bold;
 }
 
 @media (max-width:700px), (min-width:701px) and (max-width:900px), (min-width:901px) and (max-width:1100px) {
@@ -524,12 +574,13 @@ background-color: var(--balance10);
 /* compnenets */
 .main-header {
 position: sticky;
-margin-inline-end: 20px;
+margin-inline-end: 0px;
 z-index: 2;
 top: 0;
 background-color: var(--abalance1);
 box-shadow: -2px -1px 5px 2px var(--balance4);
 }
+
 .main-header .start,
 .main-header .end {
 width: 320px;
@@ -658,6 +709,11 @@ margin-inline-end: var(--size3);
 font-weight: normal;
 }
 
+.common-list-item:nth-child(4) {
+  /* Adjust the left margin to align the "FAQ-HELP" menu item */
+  margin-left: 15px;
+}
+
 /* post parts */
 .common-post {
   padding: var(--size3) var(--size4);
@@ -775,27 +831,4 @@ margin-inline-end: var(--size1);
 filter: grayscale(1);
 }
 
-/*entitiy*/
-.e-dark-mode-button {
-position: fixed;
-z-index: 2;
-right: var(--size4);
-bottom: var(--size4);
-}
-@media (max-width:700px) {
-.e-dark-mode-button {
-  display: none;
-}
-}
 
-/* Dark mode colors */
-.is-dark {
---full-color: 0 0 0;
---empty-color: 245 245 245;
---text-color: #e5e5e5;
---balance-full:#181818;
---abalance1:rgba(var(--empty-color) / 0.05);
-}
-.is-dark .main-header {
-background-color: #252525;
-}

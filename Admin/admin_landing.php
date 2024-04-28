@@ -1,5 +1,16 @@
 <?php
-session_start(); // Start the session
+
+if (isset($_POST['logout'])) {
+  // Destroy session
+  session_name("admin_session");
+  session_start();
+  session_unset();
+  session_destroy();
+  // Redirect to index.php
+  header("Location:admin_login.php");
+  exit();
+}
+
 
 // Check if the user is logged in
 if(isset($_SESSION['username'])) {
@@ -15,16 +26,12 @@ if(isset($_SESSION['username'])) {
 <head>
   <meta charset="UTF-8">
   <title>Admin- HOME</title>
+  <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel='stylesheet' href="admin_landing_style.css">
   <style>
-    .main-header {
-    margin-right: 20px;
-    position: relative;
-    z-index: 0; /* Adjust the margin as needed */
-  }
 
   .common-post {
     width: 100%; /* Adjust the width as needed */
@@ -35,7 +42,6 @@ if(isset($_SESSION['username'])) {
 
 <body>
 <!-- partial:index.partial.html -->
-<button class="icon-button e-dark-mode-button u-animation-click" id="darkMode" aria-label="Dark Mode"><span class="icon" aria-hidden="true">🌜</span></button>
 <div class="common-structure">
   <header class="main-header u-flex">
     <div class="start u-flex">
@@ -83,7 +89,6 @@ function getIconForCategory($category) {
 ?>
 </ul>
 </nav>
-
 
   <!-- script for menu -->
   <script>
@@ -167,10 +172,13 @@ function selectNavItem(element, event) {
           <div class="nav-button"><i class="fas fa-clipboard-question fa-xl"></i><span>Queries</span></div>
           </a>
         </li>
+        <br>
         <li class="common-list-item">
-          <a href="admin_login.php" class="common-list-button">
-            <div class="nav-button"><i class="fas fa-sign-out-alt fa-xl"></i><span>Logout</span></div>
-          </a>
+        <div class="logout-button logout-button-right">
+        <form method="POST" action="">
+          <button type="submit" class="log" name="logout"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></button>
+        </form>
+        </div>
         </li>
       </ul>  
   </aside>
@@ -245,9 +253,7 @@ if ($result->num_rows > 0) {
         $(".side-a").toggleClass("is-open");
         $("html").toggleClass("is-nav-open");
     });
-      $("#darkMode").on("click", function(){
-        $("html").toggleClass("is-dark");
-    });
+     
 });
   </script>
 

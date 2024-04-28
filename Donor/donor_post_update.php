@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         move_uploaded_file($tempname, $folder);
         
         // Update media in the database
-        $sql_media = "UPDATE admin_posts SET media=? WHERE id=?";
+        $sql_media = "UPDATE donor_posts SET media=? WHERE id=?";
         $stmt_media = $conn->prepare($sql_media);
         $stmt_media->bind_param("si", $folder, $postId);
         $stmt_media->execute();
@@ -36,13 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 
     // Update post content in the database
-    $sql_content = "UPDATE admin_posts SET content=? WHERE id=?";
+    $sql_content = "UPDATE donor_posts SET content=? WHERE id=?";
     $stmt_content = $conn->prepare($sql_content);
     $stmt_content->bind_param("si", $content, $postId);
     if ($stmt_content->execute()) {
         // Post updated successfully
         echo "<script>alert('Post updated successfully');</script>";
-        header("Location: admin_landing.php"); // Redirect back to the landing page
+        header("Location: donor_landing.php"); // Redirect back to the landing page
     } else {
         // Error in updating post
         echo "<script>alert('Error: " . $stmt_content->error . "');</script>";
@@ -72,7 +72,7 @@ if (isset($_GET['post_id'])) {
     }
 
     // Fetch post content and media from the database
-    $sql = "SELECT * FROM admin_posts WHERE id = ?";
+    $sql = "SELECT * FROM donor_posts WHERE id = ?";
     
     // Prepare and bind statement
     $stmt = $conn->prepare($sql);
@@ -159,78 +159,78 @@ if (isset($_GET['post_id'])) {
         }
 
         .back-button {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  top: 20px; /* Adjust the top position as needed */
-  left: 20px; /* Adjust the left position as needed */
-  border-radius: 50%;
-  border: #000 1px solid;
-  overflow: hidden;
-  transition: background 0.3s ease;
-  z-index: 1000; /* Ensure the back button stays above other elements */
-}
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 20px; /* Adjust the top position as needed */
+            left: 20px; /* Adjust the left position as needed */
+            border-radius: 50%;
+            border: #000 1px solid;
+            overflow: hidden;
+            transition: background 0.3s ease;
+            z-index: 1000; /* Ensure the back button stays above other elements */
+        }
 
 
-.back-button.back .arrow-wrap {
-  left: -50%;
-}
+        .back-button.back .arrow-wrap {
+        left: -50%;
+        }
 
-.back-button:hover {
-  background: #fff;
-  color:#000;
-}
+        .back-button:hover {
+        background: #fff;
+        color:#000;
+        }
 
-.back-button:hover .arrow-wrap span {
-  background: #000;
-}
+        .back-button:hover .arrow-wrap span {
+        background: #000;
+        }
 
-.back-button .arrow-wrap {
-  display: block;
-  position: absolute;
-  height: 70%;
-  width: 70%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: left 0.3s ease;
-}
+        .back-button .arrow-wrap {
+        display: block;
+        position: absolute;
+        height: 70%;
+        width: 70%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: left 0.3s ease;
+        }
 
-.back-button .arrow-wrap span {
-  height: 1px;
-  left: 0;
-  top: 50%;
-  background: #000;
-  position: absolute;
-  display: block;
-  transition: background 0.3s ease;
-}
+        .back-button .arrow-wrap span {
+        height: 1px;
+        left: 0;
+        top: 50%;
+        background: #000;
+        position: absolute;
+        display: block;
+        transition: background 0.3s ease;
+        }
 
-.back-button .arrow-wrap .arrow-part-1 {
-  width: 100%;
-  transform: translate(0, -50%);
-}
+        .back-button .arrow-wrap .arrow-part-1 {
+        width: 100%;
+        transform: translate(0, -50%);
+        }
 
-.back-button .arrow-wrap .arrow-part-2 {
-  width: 60%;
-  transform: rotate(-45deg);
-  transform-origin: 0 0;
-}
+        .back-button .arrow-wrap .arrow-part-2 {
+        width: 60%;
+        transform: rotate(-45deg);
+        transform-origin: 0 0;
+        }
 
-.back-button .arrow-wrap .arrow-part-3 {
-  width: 60%;
-  transform: rotate(45deg);
-  transform-origin: 0 0;
-}
+        .back-button .arrow-wrap .arrow-part-3 {
+        width: 60%;
+        transform: rotate(45deg);
+        transform-origin: 0 0;
+        }
     </style>
 </head>
 <body>
 <div class="back-button">
-          <div class="arrow-wrap">
-            <span class="arrow-part-1"></span>
-            <span class="arrow-part-2"></span>
-            <span class="arrow-part-3"></span>
-          </div>
+  <div class="arrow-wrap">
+    <span class="arrow-part-1"></span>
+    <span class="arrow-part-2"></span>
+    <span class="arrow-part-3"></span>
+  </div>
 </div>
     <div class="container">
         <h2>Update Post</h2>
@@ -260,7 +260,7 @@ if (isset($_GET['post_id'])) {
                 if (xhr.status === 200) {
                     // If the request was successful, show the dialog box
                     alert('Post Updated Successfully');
-                    window.location.href = 'admin_landing.php'; // Redirect to admin_landing.php after clicking OK
+                    window.location.href = 'donor_landing.php'; // Redirect to donor_landing.php after clicking OK
                 } else {
                     // If there was an error, display an error message
                     alert('Error: ' + xhr.responseText);
@@ -272,22 +272,24 @@ if (isset($_GET['post_id'])) {
             };
             xhr.send(formData);
         });
-
     </script>
-     <script>
-    var backButton = document.querySelector('.back-button')
-    function backAnim() {
-    if (backButton.classList.contains('back')) {
-        backButton.classList.remove('back');
-    } else {
-        backButton.classList.add('back');
-        setTimeout(backAnim, 1000);
-    }
-    }
+    <script>
+            var backButton = document.querySelector('.back-button')
 
-    backButton.addEventListener('click', function() {
-    window.location.href = 'admin_manage_post.php'; // Adjust the path as needed
-    });
-</script>
+            function backAnim() {
+            if (backButton.classList.contains('back')) {
+                backButton.classList.remove('back');
+            } else {
+                backButton.classList.add('back');
+                setTimeout(backAnim, 1000);
+            }
+            }
+
+            backButton.addEventListener('click', function() {
+            window.location.href = 'donor_manage_post.php'; // Adjust the path as needed
+            });
+
+        </script>
+    
 </body>
 </html>

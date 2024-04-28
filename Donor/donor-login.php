@@ -33,13 +33,13 @@ if (isset($_POST['username']) && isset($_POST['user_email']) && isset($_POST['pa
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Form</title>
+  <title>Donor Login</title>
+  <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
   <style>
     *
     {
@@ -291,6 +291,27 @@ if (isset($_POST['username']) && isset($_POST['user_email']) && isset($_POST['pa
         height: calc(20vw - 2px);
       }
     }
+
+    #showPassword {
+      display: none;
+    }
+
+    .inputBox #showPassword + label {
+      position: absolute;
+      top: 85px;
+      right: 180px;
+      transform: translateY(-50%);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .inputBox #password[type="text"] ~ label {
+      color: #fff; /* Change label color when password is shown */
+    }
+
+    .forgot-pwd {
+      margin-top: 20px; /* Add margin between Show Password and Forgot Password */
+    }
   </style>
 </head>
 <body>
@@ -301,61 +322,66 @@ if (isset($_POST['username']) && isset($_POST['user_email']) && isset($_POST['pa
     <span class="arrow-part-3"></span>
   </div>
 </div>
-  <section>
+<section>
   <div class="signin">
     <div class="content">
-    <h2 style="color:#780d9b;">Donor Login</h2>
+      <h2 style="color:#780d9b;">Donor Login</h2>
       <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <div class="form">
-        <div class="inputBox">
-          <label for="username" style="color:#fff;">Username:</label>
-          <input type="text" id="username" name="username" placeholder="Enter your username" required>
-        </div>
-        <div class="inputBox">
-          <label for="email" style="color:#fff;">Email:</label>
-          <input type="email" id="user_email" name="user_email" placeholder="Enter your user-email" required>
-        </div>
-        <div class="inputBox">
-          <label for="password" style="color:#fff;">Password:</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
-        </div>
-        <div class="inputBox">
+        <div class="form">
+          <div class="inputBox">
+            <label for="username" style="color:#fff;">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+          </div>
+          <div class="inputBox">
+            <label for="email" style="color:#fff;">Email:</label>
+            <input type="email" id="user_email" name="user_email" placeholder="Enter your user-email" required>
+          </div>
+          <div class="inputBox">
+            <label for="password" style="color:#fff;">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <!-- Move the checkbox and label inside the same inputBox -->
+            <input type="checkbox" id="showPassword">
+            <label for="showPassword">Show Password</label>
+          </div>
+          <div class="inputBox forgot-pwd"> <!-- Add class forgot-pwd here -->
              <a href="donor_forgot_pwd.php">Forgot Password?</a>
+          </div>
+          <div class="inputBox">
+            <input type="submit" value="Login">
+          </div>
         </div>
-        <div class="inputBox">
-          <input type="submit" value="Login">
-        </div>
-      </div>
       </form>
     </div>
   </div>
+</section>
 
-  <!-- <script>
-    const passwordInput = document.getElementById('password');
-    const showPasswordCheckbox = document.getElementById('showPassword');
-
-    showPasswordCheckbox.addEventListener('change', function () {
-      const passwordFieldType = showPasswordCheckbox.checked ? 'text' : 'password';
-      passwordInput.type = passwordFieldType;
-    });
-  </script> -->
-  </section>
 <script>
-var backButton = document.querySelector('.back-button')
+  var backButton = document.querySelector('.back-button');
 
-function backAnim() {
-  if (backButton.classList.contains('back')) {
-    backButton.classList.remove('back');
-  } else {
-    backButton.classList.add('back');
-    setTimeout(backAnim, 1000);
+  function backAnim() {
+    if (backButton.classList.contains('back')) {
+      backButton.classList.remove('back');
+    } else {
+      backButton.classList.add('back');
+      setTimeout(backAnim, 1000);
+    }
   }
-}
 
-backButton.addEventListener('click', function() {
-  window.location.href = '../index.php'; // Adjust the path as needed
-});
+  backButton.addEventListener('click', function() {
+    window.location.href = '../index.php'; // Adjust the path as needed
+  });
 
+  // Show Password functionality
+  var showPasswordCheckbox = document.getElementById('showPassword');
+  var passwordInput = document.getElementById('password');
+
+  showPasswordCheckbox.addEventListener('change', function() {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
 </script>
 </body>
 </html>

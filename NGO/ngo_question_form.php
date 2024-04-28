@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <title>Help - Ask Question</title>
-    <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">
+    <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .go-back {

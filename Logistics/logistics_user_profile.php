@@ -100,6 +100,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logistics Profile</title>
+    <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
     <!-- Include Bootstrap CSS and any other necessary CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Include your custom CSS if any -->
@@ -143,10 +144,111 @@ $conn->close();
             background-color: #5b47d6;
             border-color: #5b47d6;
         }
+
+        .back-button {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 20px; /* Adjust the top position as needed */
+            left: 20px; /* Adjust the left position as needed */
+            border-radius: 50%;
+            border: #000 1px solid;
+            overflow: hidden;
+            transition: background 0.3s ease;
+            z-index: 1000; /* Ensure the back button stays above other elements */
+        }
+
+
+        .back-button.back .arrow-wrap {
+        left: -50%;
+        }
+
+        .back-button:hover {
+        background: #fff;
+        color:#000;
+        }
+
+        .back-button:hover .arrow-wrap span {
+        background: #000;
+        }
+
+        .back-button .arrow-wrap {
+        display: block;
+        position: absolute;
+        height: 70%;
+        width: 70%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: left 0.3s ease;
+        }
+
+        .back-button .arrow-wrap span {
+        height: 1px;
+        left: 0;
+        top: 50%;
+        background: #000;
+        position: absolute;
+        display: block;
+        transition: background 0.3s ease;
+        }
+
+        .back-button .arrow-wrap .arrow-part-1 {
+        width: 100%;
+        transform: translate(0, -50%);
+        }
+
+        .back-button .arrow-wrap .arrow-part-2 {
+        width: 60%;
+        transform: rotate(-45deg);
+        transform-origin: 0 0;
+        }
+
+        .back-button .arrow-wrap .arrow-part-3 {
+        width: 60%;
+        transform: rotate(45deg);
+        transform-origin: 0 0;
+        }
+
+        .show-password {
+            position: relative;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .show-password input[type="checkbox"] {
+            display: none;
+        }
+
+        .show-password label {
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .show-password label::before {
+            content: '\25BE';
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px;
+            color: #aaa;
+        }
+
+        .show-password input[type="checkbox"]:checked + label::before {
+            content: '\25B4';
+        }
     </style>
 </head>
 
 <body>
+<div class="back-button">
+  <div class="arrow-wrap">
+    <span class="arrow-part-1"></span>
+    <span class="arrow-part-2"></span>
+    <span class="arrow-part-3"></span>
+  </div>
+</div>
     <div class="container">
         <h2 class="main-heading">Logistics Profile</h2>
         <form id="profile-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -173,6 +275,10 @@ $conn->close();
             <div class="form-group">
                 <label for="logistics_user_pwd">Password:</label>
                 <input type="password" id="logistics_user_pwd" name="logistics_user_pwd" class="form-control" value="<?php echo $logistics_user_pwd; ?>" required>
+                <div class="show-password">
+                    <input type="checkbox" id="showPassword">
+                    <label for="showPassword">Show Password</label>
+                </div>
             </div>
             <div class="form-group">
                 <label for="logistics_org_name">Organization Name</label>
@@ -227,6 +333,37 @@ $conn->close();
                 });
         });
     </script>
+   <script>
+    // JavaScript for show/hide password
+    const passwordField = document.getElementById("logistics_user_pwd"); // Corrected ID
+    const showPasswordCheckbox = document.getElementById("showPassword");
+
+    showPasswordCheckbox.addEventListener("change", function () {
+        if (this.checked) {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    });
+</script>
+
+    <script>
+            var backButton = document.querySelector('.back-button')
+
+            function backAnim() {
+            if (backButton.classList.contains('back')) {
+                backButton.classList.remove('back');
+            } else {
+                backButton.classList.add('back');
+                setTimeout(backAnim, 1000);
+            }
+            }
+
+            backButton.addEventListener('click', function() {
+            window.location.href = 'logistics_landing.php'; // Adjust the path as needed
+            });
+
+</script>
 </body>
 
 </html>

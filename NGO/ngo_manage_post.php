@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin post management</title>
+    <title>NGO Post Management</title>
     <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
     <style>
          body {
@@ -162,13 +162,13 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             if ($_POST['action'] == 'update' && isset($_POST['post_id'])) {
                 // Redirect to admin_post_update.php for updating
-                header("Location: admin_post_update.php?post_id=" . $_POST['post_id']);
+                header("Location: ngo_post_update.php?post_id=" . $_POST['post_id']);
                 exit();
             } elseif ($_POST['action'] == 'delete' && isset($_POST['post_id'])) {
                 $postId = $_POST['post_id'];
 
                 // Delete post from the database
-                $sql = "DELETE FROM admin_posts WHERE id = $postId";
+                $sql = "DELETE FROM ngo_posts WHERE id = $postId";
                 if ($conn->query($sql) === TRUE) {
                     echo "Post deleted successfully";
                 } else {
@@ -178,7 +178,7 @@
         }
 
         // Fetch posts from the database (sorted by id in descending order to display latest first)
-        $sql = "SELECT * FROM admin_posts ORDER BY id DESC";
+        $sql = "SELECT * FROM ngo_posts ORDER BY id DESC";
         $result = $conn->query($sql);
 
         // Display each post
@@ -246,7 +246,7 @@
             }
 
             backButton.addEventListener('click', function() {
-            window.location.href = 'admin_landing.php'; // Adjust the path as needed
+            window.location.href = 'ngo_landing.php'; // Adjust the path as needed
             });
 
         </script>

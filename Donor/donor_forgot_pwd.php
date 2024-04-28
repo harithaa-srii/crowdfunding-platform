@@ -122,6 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Account Recovery</title>
+<link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
 <link rel="stylesheet" href="forgot_pwd_style.css">
 </head>
 <body>

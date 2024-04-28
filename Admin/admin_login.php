@@ -40,7 +40,7 @@ if (isset($_POST['username']) && isset($_POST['user_email']) && isset($_POST['pa
 
     <head>
         <title>Admin Login</title>
-        <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">
+        <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
 *
@@ -291,6 +291,34 @@ input[type="submit"]:active
     height: calc(20vw - 2px);
   }
 }
+
+.inputBox {
+            margin-bottom: 10px;
+        }
+#showPassword {
+      display: none;
+    }
+
+    .show-password {
+            margin-bottom: 20px;
+        }
+
+    .inputBox #showPassword + label {
+      position: absolute;
+      top: 85px;
+      right: 180px;
+      transform: translateY(-50%);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .inputBox #password[type="text"] ~ label {
+      color: #fff; /* Change label color when password is shown */
+    }
+
+    .forgot-pwd {
+      margin-top: 20px; /* Add margin between Show Password and Forgot Password */
+    }
 </style>
 </head>
 
@@ -354,8 +382,11 @@ input[type="submit"]:active
                             <input type="email" id="user_email" name="user_email" placeholder="Enter your user-email" required>
                         </div>
                         <div class="inputBox">
-                            <label for="password" style="color:#fff;">Password:</label>
-                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                          <label for="password" style="color:#fff;">Password:</label>
+                          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                          <!-- Move the checkbox and label inside the same inputBox -->
+                          <input type="checkbox" id="showPassword">
+                          <label for="showPassword">Show Password</label>
                         </div>
                         <div class="inputBox">
                             <input type="submit" value="Login">
@@ -379,6 +410,17 @@ input[type="submit"]:active
 
             backButton.addEventListener('click', function() {
               window.location.href = '../index.php'; // Adjust the path as needed
+            });
+
+            var showPasswordCheckbox = document.getElementById('showPassword');
+            var passwordInput = document.getElementById('password');
+
+            showPasswordCheckbox.addEventListener('change', function() {
+              if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+              } else {
+                passwordInput.type = 'password';
+              }
             });
 
 </script>

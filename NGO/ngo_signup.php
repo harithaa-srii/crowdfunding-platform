@@ -50,10 +50,11 @@
     ?>
     <!DOCTYPE html>
     <html>
-    <!-- https://localhost/districtcare/public/main_login.php -->
+   
 
     <head>
         <title>NGO Registration</title>
+        <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
         <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">

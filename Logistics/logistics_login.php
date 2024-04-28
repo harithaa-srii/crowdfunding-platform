@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <title>Logistics Login</title>
-    <link rel="icon" href="../images/urbanlink-logo.png" type="image/icon type">
+    <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body{
             background-color:#ffffff;
-            background-image: url("logistics-login-img.jpg");
+            background-image: url("../images/login-background.jpg");
             background-repeat: no-repeat; /* Do not repeat the image */
             background-size: cover; 
         }
@@ -120,22 +120,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             top: 50%;
         }
         
-        form{
-            height: 1000px;
-            width: 420px;
-            background-color: rgba(120,13,170,0.46);
-            /* background-color:#780d9b; */
-            position: absolute;
-            transform: translate(-50%,-50%);
-            top: 65%;
-            left: 50%;
-            bottom: 65%;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 40px rgba(8,7,16,0.6);
-            padding: 10px 30px;
-        }
+        form {
+        height: 980px; /* Reduced height to allow space at the bottom */
+        width: 420px;
+        background-color: rgba(120,13,170,0.46);
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 68%;
+        left: 50%;
+        bottom: 20px; /* Adjusted bottom space */
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 40px rgba(8,7,16,0.6);
+        padding: 10px 30px;
+    }
+
         form *{
             font-family: 'Poppins',sans-serif;
             color: #ffffff;
@@ -171,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #e5e5e5;
         }
         button{
-            margin-top: 50px;
+            margin-top: 20px;
             width: 100%;
             background-color: #ffffff;
             color: #080710;
@@ -201,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 .back-button:hover {
-  background: #780d9b;
+  background: #fff;
   color:#000;
 }
 

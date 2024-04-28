@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title> Home | UnityFunds</title>
+    <link rel="icon" href="images/logo-light-theme.png" type="image/icon type">
 </head>
 <body>
   <div class="header">

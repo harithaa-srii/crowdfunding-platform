@@ -11,6 +11,25 @@
   object-fit: cover;
 }
 
+.logout-button{
+
+  padding: 12px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: rgb(231, 227, 227);
+  cursor: pointer;
+  color: #000;
+  position: relative;
+  text-align: center;
+  /* top: 50px; */
+  width: 70%;
+}
+
+.logout-button:hover{
+  font-weight: bolder;
+  color: #fff;
+  background-color: #780d9b;
+}
 /* START OF BUTTONS */
 /* Define your root variables */
 
@@ -35,6 +54,7 @@
 .nav-button span {
   transition: opacity 1s;
   margin-left:10px;
+  font-size: 17px;
 }
 
 .nav-button .fas {
@@ -97,7 +117,7 @@ max-width: 100%;
 /* Native CSS variables */
 :root {
 /* colors */
---main-color:#1877f2;
+--main-color:#780d9b;
 --text-color:#050505;
 --full-color:255 255 255;
 --empty-color:0 0 0;
@@ -554,12 +574,13 @@ background-color: var(--balance10);
 /* compnenets */
 .main-header {
 position: sticky;
-margin-inline-end: 20px;
+margin-inline-end: 0px;
 z-index: 2;
 top: 0;
 background-color: var(--abalance1);
 box-shadow: -2px -1px 5px 2px var(--balance4);
 }
+
 .main-header .start,
 .main-header .end {
 width: 320px;
@@ -805,27 +826,4 @@ margin-inline-end: var(--size1);
 filter: grayscale(1);
 }
 
-/*entitiy*/
-.e-dark-mode-button {
-position: fixed;
-z-index: 2;
-right: var(--size4);
-bottom: var(--size4);
-}
-@media (max-width:700px) {
-.e-dark-mode-button {
-  display: none;
-}
-}
 
-/* Dark mode colors */
-.is-dark {
---full-color: 0 0 0;
---empty-color: 245 245 245;
---text-color: #e5e5e5;
---balance-full:#181818;
---abalance1:rgba(var(--empty-color) / 0.05);
-}
-.is-dark .main-header {
-background-color: #252525;
-}

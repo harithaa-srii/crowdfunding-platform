@@ -1,11 +1,19 @@
 <?php
 // Start the session
-session_start();
+if (isset($_POST['logout'])) {
+  // Destroy session
+  session_name("ngo_session");
+  session_start();
+  session_unset();
+  session_destroy();
+  // Redirect to index.php
+  header("Location:ngo_login.php");
+  exit();
+}
 
 // Check if the user is logged in
 if(isset($_SESSION['username'])) {
     // If logged in, destroy the session and redirect to login page
-    session_destroy();
     header("Location: ngo_login.php");
     exit;
 }
@@ -16,15 +24,17 @@ if(isset($_SESSION['username'])) {
 <head>
   <meta charset="UTF-8">
   <title>NGO- HOME</title>
+  <link rel="icon" href="../images/logo-light-theme.png" type="image/icon type">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel='stylesheet' href="ngo_landing_style.css">
 </head>
-
 <body>
 <!-- partial:index.partial.html -->
-<button class="icon-button e-dark-mode-button u-animation-click" id="darkMode" aria-label="Dark Mode"><span class="icon" aria-hidden="true">🌜</span></button>
+
 <div class="common-structure">
   <header class="main-header u-flex">
     <div class="start u-flex">
@@ -70,7 +80,13 @@ function getIconForCategory($category) {
 ?>
 </ul>
 </nav>
-    <div class="end"></div>
+<div class="end">
+    <div class="bullhorn-wrapper">
+        <a href="view_campaigns.php" class="campaigns-link" aria-label="View Campaigns">
+            <span class="icon"><i class="fa-solid fa-bullhorn fa-xl"></i></span>
+        </a>
+    </div>
+</div>
   </header>
   <aside class="side-a">
     <section class="common-section">
@@ -89,15 +105,15 @@ function getIconForCategory($category) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="#" class="common-list-button">
+          <a href="ngo_manage_post.php" class="common-list-button">
 
-            <div class="nav-button"><i class="fa-solid fa-users fa-xl"></i><span>Create Campaigns</span></div>
+            <div class="nav-button"><i class="fas fa-bars-progress fa-xl"></i><span>Manage Posts</span></div>
           </a>
         </li>
         <li class="common-list-item">
-          <a href="#" class="common-list-button">
+          <a href="ngo_campaigns.php" class="common-list-button">
 
-            <div class="nav-button"><i class="fa-solid fa-gauge fa-xl"></i><span>Your activity</span></div>
+            <div class="nav-button"><i class="fa-solid fa-users fa-xl"></i><span>Create Campaigns</span></div>
           </a>
         </li>
         <li class="common-list-item">
@@ -107,9 +123,11 @@ function getIconForCategory($category) {
           </a>
         </li>
         <li class="common-list-item">
-          <a href="ngo_login.php" class="common-list-button">
-            <div class="nav-button"><i class="fas fa-sign-out-alt fa-xl"></i><span>Logout</span></div>
-          </a>
+        <div class="logout-button logout-button-right">
+        <form method="POST" action="">
+          <button type="submit" class="log" name="logout"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></button>
+        </form>
+        </div>
         </li>
       </ul>  
   </aside>
@@ -173,7 +191,6 @@ if ($result->num_rows > 0) {
       ?>
     </ul>
   </main>
-
 </div>
 <!-- partial -->
   <script>
@@ -182,9 +199,7 @@ if ($result->num_rows > 0) {
         $(".side-a").toggleClass("is-open");
         $("html").toggleClass("is-nav-open");
     });
-      $("#darkMode").on("click", function(){
-        $("html").toggleClass("is-dark");
-    });
+    
 });
   </script>
 
